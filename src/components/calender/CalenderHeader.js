@@ -23,9 +23,9 @@ function CalenderHeader(props) {
 
     return (
         <Box className='calender-header'>
-            <NavButton variant='contained' onClick={props.onMonthDown}>l</NavButton>
+            <NavButton variant='contained' onClick={props.onMonthDown}>{'\<'}</NavButton>
             <Paper sx={{height: '100%', width: '10em', borderRadius: 0}}>{`${monthNames[props.date.getMonth()]} - ${getYear(props.date)}`}</Paper>
-            <NavButton variant='contained' onClick={props.onMonthUp}>r</NavButton>
+            <NavButton variant='contained' onClick={props.onMonthUp}>{'\>'}</NavButton>
         </Box>
     );
 }

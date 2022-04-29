@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import CalenderHeader from './CalenderHeader';
 
+import calData from '../../cal-data';
+import { getDefaultNormalizer } from '@testing-library/react';
 
 function Calender(props) {
     const getCurMonth = () => {
@@ -46,9 +48,12 @@ function Calender(props) {
 
     for (let point = getStartPoint(); point <= daysInMonth(); point++) {
         const date = dateTransform(point);
-
         squares.push(
-            <CalenderSquare inMonth = {date.getMonth() === calDate.getMonth()} key={date.toISOString()}>
+            <CalenderSquare 
+            inMonth = {date.getMonth() === calDate.getMonth()} 
+            key={date.toISOString()} 
+            meters={calData[date.toISOString()] ? calData[date.toISOString()].meters : null}
+            date={date}>
                 {date.getDate()}
             </CalenderSquare>
         );
