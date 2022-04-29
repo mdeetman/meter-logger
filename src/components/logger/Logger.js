@@ -30,7 +30,6 @@ function Logger() {
             className='form-container'
             onSubmit={handleLog}>
             <Box className='distance-form' 
-            component="form" 
             sx={{'& > :not(style)': { m: 1 }}}>
                 <TextField
                 style={{width: '80%', margin: '0 1% 0 0'}}
@@ -66,7 +65,6 @@ function Logger() {
                 defaultValue={type} 
                 label="Type"
                 error={submitted && type === ''}
-                helperText={submitted && type === '' ? "Select a type" : ''}
                 onChange={(e) => setType(e.target.value)}>
                     <MenuItem value="erg">Erg</MenuItem>
                     <MenuItem value="bike">Bike</MenuItem>

@@ -12,7 +12,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 ];
 
 const NavButton = styled(Button)(() => ({
-  height: '2vw',
+  height: '100%',
   width: '2vw',
   borderRadius: 0,
   minWidth: 0,
@@ -23,9 +23,9 @@ function CalenderHeader(props) {
 
     return (
         <Box className='calender-header'>
-            <NavButton variant='contained'>l</NavButton>
-            <Paper sx={{height: '2vw', width: '8em', borderRadius: 0}}>{`${monthNames[props.date.getMonth()]} - ${getYear(props.date)}`}</Paper>
-            <NavButton variant='contained' sx={{height: '2vw'}}>r</NavButton>
+            <NavButton variant='contained' onClick={props.onMonthDown}>l</NavButton>
+            <Paper sx={{height: '100%', width: '10em', borderRadius: 0}}>{`${monthNames[props.date.getMonth()]} - ${getYear(props.date)}`}</Paper>
+            <NavButton variant='contained' onClick={props.onMonthUp}>r</NavButton>
         </Box>
     );
 }

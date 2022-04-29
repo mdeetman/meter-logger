@@ -27,7 +27,7 @@ function CalenderSquare(props) {
             outline: '1px solid black',
             fontSize: '1.7vw',
             backgroundColor: getColor(props.meters),
-            color: 'black',
+            color: props.inMonth ? 'black' : 'gray',
             boxShadow: 'none',
             '&:hover': {
                 backgroundColor: getColor(props.meters)

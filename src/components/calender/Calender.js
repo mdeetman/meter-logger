@@ -7,12 +7,17 @@ import Paper from '@mui/material/Paper';
 import CalenderHeader from './CalenderHeader';
 
 
-
 function Calender(props) {
-    const [calDate, setCalDate] = React.useState(new Date());
+    const getCurMonth = () => {
+        const today = new Date();
+        today.setDate(1);
+        return today;
+    }
 
-    const year = getYear(props.startDate);
-    const monthIndex = getMonth(props.startDate);
+    const [calDate, setCalDate] = React.useState(getCurMonth);
+
+    const year = getYear(calDate);
+    const monthIndex = getMonth(calDate);
 
     function dateTransform(day) {
         const date = new Date();
@@ -22,7 +27,7 @@ function Calender(props) {
     }
     
     function daysInMonth() {
-        const daysInMonth = getDaysInMonth(props.startDate);
+        const daysInMonth = getDaysInMonth(calDate);
         const activeEndDate = new Date();
         activeEndDate.setFullYear(year, monthIndex, daysInMonth);
         activeEndDate.setHours(0, 0, 0, 0);
@@ -30,15 +35,20 @@ function Calender(props) {
         return daysInMonth + daysUntilEndOfTheWeek;
     }
 
+    function getStartPoint() {
+        const startPoint = -((calDate.getDay() + 5) % 7);
+        return (startPoint !== -6 ? startPoint : 1);
+    }
+
     const dayHeaderTitles = ['MON', "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
     const dayHeaders = [];
     const squares = [];
 
-    for (let point = -props.startDate.getDay() + 2; point <= daysInMonth(); point++) {
+    for (let point = getStartPoint(); point <= daysInMonth(); point++) {
         const date = dateTransform(point);
 
         squares.push(
-            <CalenderSquare>
+            <CalenderSquare inMonth = {date.getMonth() === calDate.getMonth()} key={date.toISOString()}>
                 {date.getDate()}
             </CalenderSquare>
         );
@@ -46,10 +56,14 @@ function Calender(props) {
 
     dayHeaderTitles.forEach(title => {
         dayHeaders.push(
-            <Paper 
+            <Paper
+            key={title}
             sx={{
                 width: '7vw',
-                height: '2vw',
+                height: '1.5em',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
                 borderRadius: 0,
                 boxShadow: 0}}>
                 {title}
@@ -57,9 +71,25 @@ function Calender(props) {
         );
     });
 
+    const handleMonthChange = (change) => {
+        let newMonth = calDate.getMonth() + change;
+        let newYear = calDate.getFullYear();
+        if (newMonth === 12) {
+            newYear++;
+            newMonth = 0;
+        } else if (newMonth === -1) {
+            newYear --;
+            newMonth = 11;
+        }
+        setCalDate(new Date(newYear, newMonth, 1));
+    }
+
     return (
         <Box className='calender-dates'>
-            <CalenderHeader date={props.startDate}/>
+            <CalenderHeader 
+            date={calDate} 
+            onMonthUp={() => handleMonthChange(1)} 
+            onMonthDown={() => handleMonthChange(-1)}/>
             {dayHeaders}
             {squares}
         </Box>
